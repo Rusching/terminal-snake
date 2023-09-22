@@ -2,6 +2,7 @@ import msvcrt
 from board import Board
 import os
 import time
+import threading
 
 legalKeys = {'u', 'l', 'd', 'r', 'q'}
 
@@ -26,6 +27,9 @@ class Game(object):
         self.score = 0
         self.__is_windows = True
         self.clear_screen = True
+        self.dirc = 'u'
+        self.lock = threading.Lock()
+        self.end = False
 
     def clearScreen(self):
         """Clear the console"""
@@ -34,20 +38,37 @@ class Game(object):
         else:
             print('\n')
 
-    def mainLoop(self) -> int:
-        dirc = 'u'
+    def input_thread(self):
+        # listen to user input
+
+        global dirc
         while True:
-            self.clearScreen()
-            print(self.board.__str__())
-            # if 
             if msvcrt.kbhit():
                 a = ord(msvcrt.getch())
                 k = KeyMap.get(a, 'n')
-                if k not in legalKeys: continue
-                if k == 'q': break
-                dirc = k
-            self.board.move(dirc)
-            time.sleep(0.2)
+                if k not in legalKeys:
+                    continue
+                
+                # Prevent reverse direction change (as before)
+                # ...
+
+                with self.lock:
+                    if k == 'q':
+                        self.end = True
+                    self.dirc = k
+
+    def mainLoop(self) -> int:
+        threading.Thread(target=self.input_thread, daemon=True).start()  # daemon=True ensures the thread exits when main program exits
+        cdirc = self.dirc
+        while not self.end:
+            self.clearScreen()
+            print(self.board.__str__())
+            
+            with self.lock:
+                cdirc = self.dirc
+
+            self.board.move(cdirc)
+            time.sleep(0.01)
             
 
 if __name__ == "__main__":
