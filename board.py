@@ -82,18 +82,18 @@ class Board(object):
 
     def getCellStr(self, x, y) -> None:
         curCell = self.board[x][y]
-        if curCell == 0: return self.COLORS.get(curCell) + ' ' + Style.RESET_ALL
-        elif curCell == 1: return self.COLORS.get(curCell) + 'a' + Style.RESET_ALL
-        elif curCell == 2: return self.COLORS.get(curCell) + 's' + Style.RESET_ALL
-        else: return self.COLORS.get(curCell) + 'h' + Style.RESET_ALL
+        if curCell == 0: return self.COLORS.get(curCell) + "%2s"%' ' + Style.RESET_ALL
+        elif curCell == 1: return self.COLORS.get(curCell) + "%2s"%'a' + Style.RESET_ALL
+        elif curCell == 2: return self.COLORS.get(curCell) + "%2s"%'s' + Style.RESET_ALL
+        else: return self.COLORS.get(curCell) + "%2s"%'h' + Style.RESET_ALL
 
     def printBoard(self) -> None:
         for i in range(self.height): print(self.board[i])
 
     def __str__(self) -> None:
         
-        topMargin = '\n' * self.margins.get('top', 0) + ' ' * (self.margins.get('left', 0) + 1) + '-' * self.width + '\n'
-        bottomMargin = ' ' * (self.margins.get('left', 0) + 1) + '-' * self.width + '\n' + '\n' * self.margins.get('bottom', 0)
+        topMargin = '\n' * self.margins.get('top', 0) + ' ' * (self.margins.get('left', 0) + 1) + '-' * self.width * 2 + '\n'
+        bottomMargin = ' ' * (self.margins.get('left', 0) + 1) + '-' * self.width * 2 + '\n' + '\n' * self.margins.get('bottom', 0)
         boardStr = ""
         for row in range(self.height):
             boardStr += ' ' * self.margins.get('left', 0) + '|' + "".join([self.getCellStr(row, i) for i in range(self.width)]) + '|\n'
