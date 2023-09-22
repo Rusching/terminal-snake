@@ -1,6 +1,4 @@
-from get_keys import getKey
 import msvcrt
-import pdb
 from board import Board
 import os
 import time
