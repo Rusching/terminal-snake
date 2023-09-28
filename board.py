@@ -22,8 +22,8 @@ class Board(object):
         # 2: snake body
         # 3: snake head
 
-        self.width = 12
-        self.height = 12
+        self.width = 35
+        self.height = 18
         self.board = [[0 for _ in range(self.width)] for _ in range(self.height)]
         self.margins = {'left': 10, 'top': 10, 'bottom': 10}
         

@@ -10,3 +10,9 @@ k: down
 l: right
 
 ![Alt text](demo.gif)
+
+## Next
+Add obstacles
+Add levels
+Add ai snakes
+Add vs mode
